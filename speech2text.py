@@ -1,15 +1,28 @@
+import os
 import openai
 
-open_ai_api_key = "OPEN_AI_API_KEY"
+from dotenv import load_dotenv
 
-headers = {
-    'Authorization': f"Bearer {open_ai_api_key}",
-    'Content-Type': 'application/json'
-}
+load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+print('api key', openai.api_key)
+
 
 class SpeechToText:
     def convert_to_text(self, processed_audio):
-         # Implement this later
+
+        def transcribe_audio(audio_filepath):
+            with open(audio_filepath, 'rb') as audio_file:
+                response = openai.Audio.transcribe("whisper-1", audio_file)
+                print(response)
+            
+            # Delete the temporary file
+            os.remove(audio_filepath)
+            
+            return response['text']
+
+        # Implement this later
         # response = requests.post("https://api.openai.com/v1/whisper/asr", headers=headers, json=payload)
 
         # if response.status_docde == 200:
@@ -25,9 +38,7 @@ class SpeechToText:
 
         # Convert the processed audio to text
         # For now, return a dummy string
-        return "This is converted text."
+        text = transcribe_audio(processed_audio)
+        return text
     
-    def transcribe_audio(audio_file_path):
-        with open(audio_file_path, 'rb') as audio_file:
-            transcription = openai.Audio.transcribe("whisper-1", audio_file)
-        return transcription['text']
+    

@@ -18,8 +18,4 @@ if __name__ == '__main__':
     speech_to_text = SpeechToText()  # Initialize the new module
     socket_handler = SocketHandler(socketio, audio_processor, speech_to_text)  # Pass the new modules as arguments
     socket_handler.register_events()
-    socketio.run(app, debug=True)
-
-
-if __name__ == '__main__':
-    socketio.run(app, port=5001)
+    socketio.run(app,port=5001)

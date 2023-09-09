@@ -11,10 +11,13 @@ class SocketHandler:
     def register_events(self):
         @self.socketio.on('audio_chunk')
         def handle_audio_chunk(audio_data):
+            print('audio received in backend')
             processed_audio = self.audio_processor.process_audio(audio_data)
             
             # Do stuff with this audio
             text = self.speech_to_text.convert_to_text(processed_audio)
+
+            print('speech to text ', text)
 
             location = query_location("")
             self.socketio.emit('location_pinpoint', location)
