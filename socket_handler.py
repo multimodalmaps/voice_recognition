@@ -1,30 +1,60 @@
 from flask_socketio import SocketIO
-from audio_processor import AudioProcessor
-from speech2text import SpeechToText
 
-class SocketHandler:
-    def __init__(self, socketio: SocketIO, audio_processor: AudioProcessor, speech_to_text: SpeechToText):
-        self.socketio = socketio
+class Handler:
+    def __init__(self, successor=None):
+        self.successor = successor
+    
+    def handle_request(self, data):
+        pass
+
+
+class AudioProcessingHandler(Handler):
+    def __init__(self, audio_processor, successor=None):
+        super().__init__(successor)
         self.audio_processor = audio_processor
-        self.speech_to_text = speech_to_text
+
+    def handle_request(self, data):
+        processed_audio = self.audio_processor.process_audio(data)
+        if self.successor:
+            return self.successor.handle_request(processed_audio)
+
+class SpeechToTextHandler(Handler):
+    def __init__(self, stt_api, successor=None):
+        super().__init__(successor)
+        self.stt_api = stt_api
+
+    def handle_request(self, data):
+        text = self.stt_api.convert_to_text(data)
+        if self.successor:
+            return self.successor.handle_request(text)
+        else:
+            return text
+
+
+class SocketEventListener:
+    """ 
+    SocketHandler handles the socket events using socketIO.
+
+    Args:
+        socketio (SocketIO): The Flask-SocketIO instance.
+        audio_processor (AudioProcessor): The audio processor instance to handle audio data.
+        speech_to_text (SpeechToText): The speech to text converter instance.
+    """
+    def __init__(self, socketio: SocketIO, first_handler: Handler):
+        self.socketio = socketio
+        self.first_handler = first_handler
 
     def register_events(self):
+        """Register socket events."""
         @self.socketio.on('audio_chunk')
         def handle_audio_chunk(audio_data):
-            print('audio received in backend')
-            processed_audio = self.audio_processor.process_audio(audio_data)
-            
-            # Do stuff with this audio
-            text = self.speech_to_text.convert_to_text(processed_audio)
+            """Handle the received audio chunk and emit the results.
 
-            print('speech to text ', text)
-
-            location = query_location("")
-            self.socketio.emit('location_pinpoint', location)
-
-            # Do something with the text, e.g., query a location and emit back to client
-            self.socketio.emit('converted_text', text)
-
-def query_location(text):
-    #dummy function to simulate querying location based on text
-    return {"latitude": 40.7128, "longitude": -74.0060}
+            Args:
+                audio_data (bytes): The received audio data.
+            """
+            try:
+                transcription = self.first_handler.handle_request(audio_data)
+                self.socketio.emit('transcription', transcription)
+            except Exception as e:
+                print(f"Error processing audio chunk: {e}")

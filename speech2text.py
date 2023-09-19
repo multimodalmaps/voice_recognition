@@ -1,44 +1,34 @@
 import os
 import openai
 
-from dotenv import load_dotenv
 
-load_dotenv()
+class SpeechToTextStrategy:
+    def transcribe(self, audio_file_path: str) -> str:
+        raise NotImplementedError
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-print('api key', openai.api_key)
+class WhisperStrategy(SpeechToTextStrategy):
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        openai.api_key = self.api_key
+        
+    def transcribe(self, audio_file_path: str) -> str:
+        with open(audio_file_path, 'rb') as audio_file:
+            response = openai.Audio.transcribe("whisper-1", audio_file)
+            print(response)
+            self._clean_up_audio_file(audio_file_path)
+        return response['text'] if 'text' in response else ''
 
-
-class SpeechToText:
-    def convert_to_text(self, processed_audio):
-
-        def transcribe_audio(audio_filepath):
-            with open(audio_filepath, 'rb') as audio_file:
-                response = openai.Audio.transcribe("whisper-1", audio_file)
-                print(response)
-            
-            # Delete the temporary file
-            os.remove(audio_filepath)
-            
-            return response['text']
-
-        # Implement this later
-        # response = requests.post("https://api.openai.com/v1/whisper/asr", headers=headers, json=payload)
-
-        # if response.status_docde == 200:
-        #     text = response.json().get("transcription", "")
-
-        #     #do something with the text
-        #     location = query_location(text)
-
-        #     socketio.emit('location_pinpoint', location)
-        # else:
-        #     print(f"Whisper API error: {response.content}")
+    def _clean_up_audio_file(self, audio_file_path: str):
+        try:
+            os.remove(audio_file_path)
+        except Exception as e:
+            print(f"Error removing audio file: {e}")
 
 
-        # Convert the processed audio to text
-        # For now, return a dummy string
-        text = transcribe_audio(processed_audio)
-        return text
-    
+class SpeechToTextWrapper:
+    def __init__(self, strategy: SpeechToTextStrategy):
+        self.strategy = strategy
+
+    def convert_to_text(self, audio_file_path: str) -> str:
+        return self.strategy.transcribe(audio_file_path)
     
