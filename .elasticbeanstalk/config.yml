@@ -1,0 +1,23 @@
+branch-defaults:
+  hguzmansoto/min_deployment:
+    environment: multimodalmap-voicerecognition-dev
+  min/voiceTranscriptPrototype:
+    environment: multimodalmap-voicerecognition-dev
+environment-defaults:
+  multimodalmap-voicerecognition-dev:
+    branch: min/voiceTranscriptPrototype
+    repository: voice_recognition
+global:
+  application_name: multimodalmap-voicerecognition
+  branch: null
+  default_ec2_keyname: null
+  default_platform: Python 3.11 running on 64bit Amazon Linux 2023
+  default_region: us-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  repository: null
+  sc: git
+  workspace_type: Application
