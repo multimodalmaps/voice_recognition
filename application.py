@@ -12,8 +12,18 @@ from speech2text import SpeechToTextWrapper, WhisperStrategy
 from socket_handler import AudioProcessingHandler, SpeechToTextHandler, SocketEventListener
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins":  "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html"}})
-socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3000", "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html"])
+CORS(app, resources=
+    {r"/*": 
+     {"origins": [
+         "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
+         "d26pk5sdxu3m5h.cloudfront.net"
+         ]}
+})
+socketio = SocketIO(app, cors_allowed_origins=
+                    ["http://localhost:3000", 
+                     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
+                     "d26pk5sdxu3m5h.cloudfront.net
+"])
 
 # api_key = os.getenv("OPENAI_API_KEY")
 api_key = os.environ["OPENAI_API_KEY"]
