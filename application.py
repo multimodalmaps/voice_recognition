@@ -14,15 +14,17 @@ from socket_handler import AudioProcessingHandler, SpeechToTextHandler, SocketEv
 app = Flask(__name__)
 CORS(app, resources=
     {r"/*": 
-     {"origins": [
-         "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
-         "d26pk5sdxu3m5h.cloudfront.net"
-         ]}
+        {"origins": [
+            "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
+            "d26pk5sdxu3m5h.cloudfront.net",
+            ]
+        }
 })
 socketio = SocketIO(app, cors_allowed_origins=
                     ["http://localhost:3000", 
                      "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
-                     "d26pk5sdxu3m5h.cloudfront.net"])
+                     "https://d26pk5sdxu3m5h.cloudfront.net",
+                     ])
 
 # api_key = os.getenv("OPENAI_API_KEY")
 api_key = os.environ["OPENAI_API_KEY"]
