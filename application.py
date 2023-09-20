@@ -15,7 +15,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins":  "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html"}})
 socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3000", "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html"])
 
-api_key = os.getenv("OPENAI_API_KEY")
+# api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.environ.get("OPENAI_API_KEY")
 
 audio_processor = AudioProcessor()
 whisper_stt = SpeechToTextWrapper(WhisperStrategy(api_key))
