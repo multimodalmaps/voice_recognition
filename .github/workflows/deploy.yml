@@ -23,4 +23,3 @@ jobs:
           environment_name: multimodalmap-voicerecognition-dev
           version_label: github-${{ github.sha }}
           region: us-west-2
-          zip_file: voice_recognition.zip # if you're deploying as a zip archive, otherwise it will zip the current directory
