@@ -22,8 +22,7 @@ CORS(app, resources=
 socketio = SocketIO(app, cors_allowed_origins=
                     ["http://localhost:3000", 
                      "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
-                     "d26pk5sdxu3m5h.cloudfront.net
-"])
+                     "d26pk5sdxu3m5h.cloudfront.net"])
 
 # api_key = os.getenv("OPENAI_API_KEY")
 api_key = os.environ["OPENAI_API_KEY"]
