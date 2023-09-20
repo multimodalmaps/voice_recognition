@@ -16,7 +16,7 @@ CORS(app, resources=
     {r"/*": 
         {"origins": [
             "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
-            "d26pk5sdxu3m5h.cloudfront.net",
+            "https://d26pk5sdxu3m5h.cloudfront.net",
             ]
         }
 })
