@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Generate deployment package
+        run: zip -r voice_recognition.zip . -x '*.git*'
+
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v14
         with:
@@ -23,3 +26,4 @@ jobs:
           environment_name: multimodalmap-voicerecognition-dev
           version_label: github-${{ github.sha }}
           region: us-west-2
+          deployment_package: voice_recognition.zip
