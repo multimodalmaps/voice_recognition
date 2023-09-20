@@ -1,6 +1,8 @@
 branch-defaults:
   hguzmansoto/min_deployment:
     environment: multimodalmap-voicerecognition-dev
+  main:
+    environment: multimodalmap-voicerecognition-dev
   min/voiceTranscriptPrototype:
     environment: multimodalmap-voicerecognition-dev
 environment-defaults:
