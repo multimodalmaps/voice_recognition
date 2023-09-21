@@ -16,6 +16,7 @@ CORS(app, resources=
     {r"/*": 
         {"origins": [
             "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
+            "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/"
             "https://d26pk5sdxu3m5h.cloudfront.net",
             ]
         }
@@ -23,6 +24,7 @@ CORS(app, resources=
 socketio = SocketIO(app, cors_allowed_origins=
                     ["http://localhost:3000", 
                      "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
+                     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/"
                      "https://d26pk5sdxu3m5h.cloudfront.net",
                      ])
 
