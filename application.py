@@ -16,7 +16,7 @@ CORS(app, resources=
     {r"/*": 
         {"origins": [
             "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
-            "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/"
+            "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com"
             "https://d26pk5sdxu3m5h.cloudfront.net",
             ]
         }
@@ -24,7 +24,7 @@ CORS(app, resources=
 socketio = SocketIO(app, cors_allowed_origins=
                     ["http://localhost:3000", 
                      "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
-                     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/"
+                     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com"
                      "https://d26pk5sdxu3m5h.cloudfront.net",
                      ])
 
@@ -46,5 +46,5 @@ socket_event_listener = SocketEventListener(socketio, first_handler=audio_proces
 socket_event_listener.register_events()
 
 
-if __name__ == '__main__':
-    socketio.run(app, port=8000)
+# if __name__ == '__main__':
+#     socketio.run(app, port=8000)
