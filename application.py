@@ -1,7 +1,7 @@
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
 from flask import Flask
 from flask_cors import CORS
@@ -15,19 +15,19 @@ app = Flask(__name__)
 CORS(app, resources=
     {r"/*": 
         {"origins": [
-            "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
+            "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
             "https://d26pk5sdxu3m5h.cloudfront.net",
             ]
         }
 })
 socketio = SocketIO(app, cors_allowed_origins=
                     ["http://localhost:3000", 
-                     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
+                     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
                      "https://d26pk5sdxu3m5h.cloudfront.net",
                      ])
 
-# api_key = os.getenv("OPENAI_API_KEY")
-api_key = os.environ["OPENAI_API_KEY"]
+api_key = os.getenv("OPENAI_API_KEY")
+# api_key = os.environ["OPENAI_API_KEY"]
 print(api_key) 
 
 @app.route('/')
@@ -44,5 +44,5 @@ socket_event_listener = SocketEventListener(socketio, first_handler=audio_proces
 socket_event_listener.register_events()
 
 
-# if __name__ == '__main__':
-#     socketio.run(app, port=8000)
+if __name__ == '__main__':
+    socketio.run(app, port=8000)
