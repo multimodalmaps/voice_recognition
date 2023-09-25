@@ -20,7 +20,6 @@ allowed_origins = [
 ]
 
 socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
-
 # api_key = os.getenv("OPENAI_API_KEY")
 api_key = os.environ["OPENAI_API_KEY"]
 print(api_key) 
