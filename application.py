@@ -16,7 +16,7 @@ allowed_origins = [
     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com/index.html",
     "https://multimodalmap-frontend.s3.us-west-2.amazonaws.com",
     "https://d26pk5sdxu3m5h.cloudfront.net",
-    "http://multimodalmap-voicerecognition-dev.us-west-2.elasticbeanstalk.com"
+    "https://multimodalmap-voicerecognition-dev.us-west-2.elasticbeanstalk.com"
 ]
 
 socketio = SocketIO(app, cors_allowed_origins=allowed_origins)
